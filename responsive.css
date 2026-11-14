@@ -1,0 +1,13 @@
+/* Desktop: sidebar navigation (left) */
+@media(max-width:380px){nav button span{font-size:10px}.card b{font-size:24px}}
+@media(min-width:900px){
+#app{max-width:1440px;flex-direction:row-reverse}
+main{padding:42px clamp(36px,5vw,72px)}
+nav{position:static;left:auto;bottom:auto;transform:none;width:272px;max-width:none;flex-direction:column;flex:none;border:0;border-right:1px solid var(--bd);border-radius:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;justify-content:flex-start;padding:32px 0 0;background:var(--bg2)}
+.nb{display:block;padding:0 24px 28px;font-weight:800;font-size:21px}.nb small{display:block;font-weight:400;font-size:12px;color:var(--tx2);-webkit-text-fill-color:var(--tx2);background:none;margin-top:4px}
+nav button{flex:none;flex-direction:row;gap:14px;font-size:15px;padding:13px 24px;justify-content:flex-start;min-height:52px}
+nav button.on{background:color-mix(in srgb,var(--ac) 12%,transparent);box-shadow:inset 3px 0 var(--ac);color:var(--ac)}
+nav button.on svg{background:none;color:var(--ac)}
+.grid{grid-template-columns:repeat(4,1fr)}.fab{position:absolute;z-index:auto;right:28px;bottom:28px;width:50px;height:50px;font-size:24px}
+#sh{max-width:560px;margin:auto;border-radius:22px}#ov{align-items:center;justify-content:center}
+}

@@ -1,0 +1,90 @@
+name: Build HabitFlow Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+         node-version: 22
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Verify Android SDK
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          ls "$ANDROID_HOME/cmdline-tools"
+
+      - name: Accept Android SDK licenses
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
+
+      - name: Install Android SDK packages
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            "platform-tools" \
+            "platforms;android-36" \
+            "build-tools;36.0.0"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Prepare website assets
+        run: |
+          mkdir -p www
+          cp index.html app.js database.js notifications.js views.js sheets.js utils.js style.css themes.css responsive.css manifest.json icon.svg icon-192.png icon-512.png habitflow-alarm.wav service-worker.js www/
+
+      - name: Add Android platform
+        run: npx cap add android
+
+      - name: Add HabitFlow launcher and alarm resources
+        run: |
+          mkdir -p android/app/src/main/res/raw android/app/src/main/res/drawable android/app/src/main/res/values android/app/src/main/res/mipmap-anydpi android/app/src/main/res/mipmap-anydpi-v26
+          cp habitflow-alarm.wav android/app/src/main/res/raw/habitflow_alarm.wav
+          cp android-assets/ic_launcher_foreground.xml android/app/src/main/res/drawable/ic_launcher_foreground.xml
+          cp android-assets/habitflow_colors.xml android/app/src/main/res/values/habitflow_colors.xml
+          cp android-assets/ic_launcher_legacy.xml android/app/src/main/res/mipmap-anydpi/ic_launcher.xml
+          cp android-assets/ic_launcher_legacy.xml android/app/src/main/res/mipmap-anydpi/ic_launcher_round.xml
+          cp android-assets/ic_launcher.xml android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+          cp android-assets/ic_launcher.xml android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+          rm -f android/app/src/main/res/mipmap-*/ic_launcher.png android/app/src/main/res/mipmap-*/ic_launcher_round.png
+
+      - name: Synchronize Capacitor
+        run: npx cap sync android
+
+      - name: Build APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Prepare APK
+        run: |
+          mkdir -p build-output
+          cp android/app/build/outputs/apk/debug/app-debug.apk build-output/HabitFlow.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: HabitFlow-Android-APK
+          path: build-output/HabitFlow.apk
+          retention-days: 30
