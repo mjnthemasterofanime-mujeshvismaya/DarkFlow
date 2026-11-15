@@ -1,0 +1,5 @@
+/* HabitFlow palette: warm ivory by day, midnight by night, with quiet pastel accents. */
+:root{--bg:#F5F4F0;--bg2:#fff;--card:#fff;--tx:#242522;--tx2:#70736D;--ac:#A5D7BC;--on:#193328;--bd:#E1E0D9;--ok:#62977A;--hi:#C76E7B;--bl:#6484A4;--pu:#927DB8;--or:#B68B4C;--emerald:#A5D7BC;--sky:#A5D7BC;--violet:#A5D7BC;--brand-gradient:var(--ac);--brand-ink:#193328;
+color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101114;--bg2:#191A1E;--card:#1D1E22;--tx:#F3F2EE;--tx2:#B3B2AD;--ac:#A5D7BC;--on:#193328;--bd:#303136;--hi:#E49AA3;--bl:#89A8C6;--pu:#B9A5DF;--or:#D8B477;--emerald:#A5D7BC;--sky:#A5D7BC;--violet:#A5D7BC;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101114;--bg2:#191A1E;--card:#1D1E22;--tx:#F3F2EE;--tx2:#B3B2AD;--ac:#A5D7BC;--on:#193328;--bd:#303136;--hi:#E49AA3;--bl:#89A8C6;--pu:#B9A5DF;--or:#D8B477;--emerald:#A5D7BC;--sky:#A5D7BC;--violet:#A5D7BC;color-scheme:dark}
