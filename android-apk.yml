@@ -37,7 +37,7 @@ jobs:
       - name: Prepare web app
         run: |
           mkdir -p www
-          cp index.html app.js database.js notifications.js views.js sheets.js utils.js style.css themes.css responsive.css manifest.json icon.svg icon-192.png icon-512.png service-worker.js www/
+          cp index.html app.js database.js notifications.js views.js sheets.js utils.js style.css themes.css responsive.css darkflow.css manifest.json darkflow-logo.png icon-192.png icon-512.png icon-maskable-512.png service-worker.js www/
 
       - name: Add Android platform
         run: npx cap add android
@@ -58,6 +58,23 @@ jobs:
 
       - name: Sync Capacitor
         run: npx cap sync android
+
+      - name: Install DARKFLOW launcher icons
+        run: |
+          RES=android/app/src/main/res
+          mkdir -p "$RES/drawable" "$RES/drawable-nodpi" "$RES/mipmap-anydpi" "$RES/mipmap-anydpi-v26"
+          cp android-assets/drawable-nodpi/ic_launcher_foreground.png "$RES/drawable-nodpi/ic_launcher_foreground_png.png"
+          cp android-assets/ic_launcher_foreground.xml "$RES/drawable/ic_launcher_foreground.xml"
+          cp android-assets/habitflow_colors.xml "$RES/values/habitflow_colors.xml"
+          cp android-assets/ic_launcher.xml "$RES/mipmap-anydpi-v26/ic_launcher.xml"
+          cp android-assets/ic_launcher.xml "$RES/mipmap-anydpi-v26/ic_launcher_round.xml"
+          cp android-assets/ic_launcher_legacy.xml "$RES/mipmap-anydpi/ic_launcher.xml"
+          cp android-assets/ic_launcher_legacy.xml "$RES/mipmap-anydpi/ic_launcher_round.xml"
+          for density in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
+            mkdir -p "$RES/mipmap-$density"
+            cp "android-assets/mipmap-$density/ic_launcher.png" "$RES/mipmap-$density/ic_launcher.png"
+            cp "android-assets/mipmap-$density/ic_launcher.png" "$RES/mipmap-$density/ic_launcher_round.png"
+          done
 
       - name: Build APK
         run: |

@@ -1,4 +1,4 @@
-const CACHE='habitflow-v2';
+const CACHE='darkflow-v6';
 
 const FILES = [
   "./",
@@ -7,15 +7,17 @@ const FILES = [
   "./themes.css",
   "./style.css",
   "./responsive.css",
+  "./darkflow.css",
   "./utils.js",
   "./database.js",
   "./views.js",
   "./sheets.js",
   "./notifications.js",
   "./app.js",
-  "./icon.svg",
+  "./darkflow-logo.png",
   "./icon-192.png",
   "./icon-512.png",
+  "./icon-maskable-512.png",
   "./habitflow-alarm.wav"
 ];
 

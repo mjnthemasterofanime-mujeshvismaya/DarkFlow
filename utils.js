@@ -17,7 +17,7 @@ const KNOW={'Psychology':['Emotions','Memory','Personality','Human behaviour'],'
 const weekStart=(d=new Date())=>{d=new Date(d);d.setDate(d.getDate()-((d.getDay()+6)%7));return ymd(d)};
 const addD=(k,n)=>{const d=pd(k);d.setDate(d.getDate()+n);return ymd(d)};
 const mkSeed=()=>SEED.map(([title,days,mins,cat],i)=>({id:'h'+(i+1),title,days,mins,cat,time:'',notify:false,since:weekStart()}));
-const newState=()=>({v:2,habits:mkSeed(),log:{},journal:[],ses:[],ani:{},fired:{},settings:{theme:'dark',fdow:1,h24:false,notify:true,alarmSound:true,sum:false,sumTime:'20:00',msg:'Time for your next habit.'}});
+const newState=()=>({v:2,habits:mkSeed(),log:{},journal:[],ses:[],ani:{},fired:{},settings:{theme:'dark',fdow:1,h24:false,notify:true,alarmSound:true,sum:true,sumTime:'17:00',msg:'Take a moment to work on your daily goals.'}});
 let S=newState(),tab='today',lrn='English',selD=today(),wkOff=0,jq='',jc='All',db=null,T=null;
 
 // ---- habit data ----
@@ -36,4 +36,5 @@ function dStreak(){const t=today();let n=0;for(let k=t,i=0;i<1000;k=addD(k,-1),i
 function migrate(){let c=0;if(!S.v||S.v<2){S.v=2;S.habits=S.habits||mkSeed();S.log=S.log||{};S.journal=S.journal||[];S.ses=S.ses||[];S.ani=S.ani||{};S.fired=S.fired||{}}
  S.habits=S.habits&&S.habits.length?S.habits:mkSeed();S.journal=S.journal||[];
  (S.notes||[]).forEach(n=>{const id='n_'+n.id;if(S.journal.some(j=>j.id===id))return;S.journal.push({id,title:n.title||'Untitled',cat:'Custom',cc:'Imported notes',desc:n.body||'',find:'',thought:'',date:ymd(n.created||Date.now()),tags:['imported'],updated:n.updated||Date.now()});c++});
- S.settings={theme:'dark',fdow:1,h24:false,notify:true,alarmSound:true,sum:false,sumTime:'20:00',msg:'Time for your next habit.',...S.settings};return c}
+ const oldSettings=S.settings||{};if(oldSettings.sum===false&&oldSettings.sumTime==='20:00'&&oldSettings.msg==='Time for your next habit.'){oldSettings.sum=true;oldSettings.sumTime='17:00';oldSettings.msg='Take a moment to work on your daily goals.'}
+ S.settings={theme:'dark',fdow:1,h24:false,notify:true,alarmSound:true,sum:true,sumTime:'17:00',msg:'Take a moment to work on your daily goals.',...oldSettings};return c}
